@@ -1,0 +1,143 @@
+<dialog id="mechanics_modal" class="modal">
+  <div class="modal-box max-w-3xl max-h-[90vh] overflow-y-auto">
+    <button class="absolute opacity-0 pointer-events-none" autofocus></button>
+    <h1 class="text-3xl font-bold mb-6 border-b border-base-200 pb-4">
+      Кастомные механики
+    </h1>
+    <p class="leading-relaxed mb-2">
+      Сервер в своей основе остаётся приближенным к
+      <b class="text-success">ванильному</b> игровому процессу, без приватов,
+      донатов и механик, дающих прямые преимущества. <br />
+    </p>
+    <p class="leading-relaxed mb-4">
+      Однако ряд <b class="text-primary">авторских изменений</b> делает
+      выживание более <b>глубоким</b>, <b>атмосферным</b> и
+      <b>разнообразным</b>. Они требуют больше подготовки в классических этапах
+      прохождения и повышают ценность ресурсов. При этом баланс сохраняется —
+      изменения не ломают ванильную основу, а <b>расширяют</b> её.
+    </p>
+
+    <div class="flex flex-col gap-2">
+      <div class="collapse collapse-arrow bg-base-200 rounded-none">
+        <input type="radio" name="mechanics" />
+        <div class="collapse-title font-semibold">🎙️ Социальные механики</div>
+        <div class="collapse-content">
+          <p class="leading-relaxed mb-2">
+            Для усиления взаимодействия между игроками используются
+            дополнительные моды:
+          </p>
+          <ul class="leading-relaxed mb-2">
+            <li>
+              <a
+                href="https://modrinth.com/plugin/plasmo-voice"
+                class="link font-bold text-primary"
+                target="_blank"
+                >Plasmo Voice</a
+              >
+              — обеспечивает голосовое общение в игре, делая коммуникацию живой
+              и реалистичной.
+            </li>
+            <li>
+              <a
+                href="https://modrinth.com/plugin/emotecraft"
+                class="link font-bold text-primary"
+                target="_blank"
+                >EmoteCraft</a
+              >
+              — добавляет систему эмоций, позволяя игрокам выражать себя через
+              анимации.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow bg-base-200 rounded-none">
+        <input type="radio" name="mechanics" />
+        <div class="collapse-title font-semibold">
+          🌍 Изменённая граница мира
+        </div>
+        <div class="collapse-content">
+          <p class="leading-relaxed mb-2">
+            Для того чтобы игроки не расселялись на слишком огромных расстояниях
+            и больше коммуницировали между собой, на сервере действует система
+            <b class="text-primary">«мягкой» границы</b>.
+          </p>
+          <p class="leading-relaxed mb-2">
+            Игроки могут пересекать границу мира, но длительное нахождение за её
+            пределами приводит к <b>негативным эффектам</b>:
+          </p>
+          <ul class="list-disc list-inside leading-relaxed mb-2">
+            <li>замедление</li>
+            <li>слабость</li>
+            <li>постепенное ухудшение состояния персонажа</li>
+            <li>риск заражения <b>болезнью</b></li>
+          </ul>
+          <p class="leading-relaxed mb-2">
+            Для безопасного нахождения за границей необходимо использовать
+            <b class="text-primary">противогаз</b>. Противогаз защищает игрока
+            от негативного воздействия за пределами границы мира.
+          </p>
+          <img alt="Крафт" src="/images/gas_mask.webp" class="lg:w-[30%]" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow bg-base-200 rounded-none">
+        <input type="radio" name="mechanics" />
+        <div class="collapse-title font-semibold">🔥 Особенности измерений</div>
+        <div class="collapse-content">
+          <p class="leading-relaxed mb-4">
+            Каждое измерение стало более хардкорным и требует подготовки:
+          </p>
+          <ul class="leading-relaxed mb-2">
+            <li class="border-l-3 border-secondary p-4 mb-4 bg-base-300">
+              В <b class="text-secondary">Незере</b> игрок постоянно
+              подвергается воздействию <b>огня</b>, для выживания требуется
+              использовать <b>зелья огнестойкости</b> или
+              <b>зачарованную броню</b>. Требуется тщательно планировать вылазки
+              за незеритом и прочими адскими ресурсами.
+            </li>
+            <li class="border-l-3 border-info p-4 bg-base-300">
+              В <b class="text-info">Энде</b> отсутствует <b>воздух</b> и игрок
+              сразу начинает <b>задыхаться</b>. При исследовании необходимо
+              использовать зелья <b>водного дыхания</b>, что намного повышает
+              ценность элитр.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow bg-base-200 rounded-none">
+        <input type="radio" name="mechanics" />
+        <div class="collapse-title font-semibold">
+          🌀 Творческий мир — Limbo
+        </div>
+        <div class="collapse-content">
+          <p class="leading-relaxed mb-2">
+            На сервере доступен отдельный мир для строительства,
+            <b class="text-primary">Limbo</b> — плоский мир с режимом
+            <b>креатива</b> и <b>World Edit</b>. Вход в него доступен в любой
+            момент по команде <kbd class="kbd">/limbo</kbd>.
+          </p>
+          <p class="leading-relaxed mb-2">
+            Этот мир используется для <b>проектирования</b> своих построек,
+            <b>тестирвоания</b> идей и для переноса готовых <b>проектов</b> на
+            основной сервер.
+          </p>
+        </div>
+      </div>
+
+      <p class="leading-relaxed mt-6">
+        <b class="text-xl">Список плагинов:</b>
+        <span>
+          <%- mc.plugins.map(el => `<kbd class="kbd">${el}</kbd>`).join(` `)
+          %></span
+        >
+      </p>
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn">Закрыть</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</dialog>

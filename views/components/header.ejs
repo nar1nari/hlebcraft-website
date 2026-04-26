@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth bg-base-200">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <title>Хлебкрафт</title>
+    <link href="/css/output.css" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <script src="/js/svg.js" defer></script>
+  </head>
+
+  <body class="bg-base-100 overflow-y-scroll">
+    <header class="max-lg:collapse bg-base-200 w-full lg:pl-2 pr-2 z-30">
+      <input id="navbar-1-toggle" class="peer hidden" type="checkbox" />
+      <label
+        for="navbar-1-toggle"
+        class="fixed inset-0 hidden max-lg:peer-checked:block"
+      ></label>
+      <div class="collapse-title navbar">
+        <div class="navbar-start">
+          <label for="navbar-1-toggle" class="btn btn-ghost lg:hidden">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h8m-8 6h16"
+              />
+            </svg>
+          </label>
+          <a
+            href="/"
+            class="text-xl font-bold uppercase tracking-wider font-brand! select-none cursor-pointer flex items-center"
+          >
+            <div class="svg-logo w-8 h-8"></div>
+            Хлебкрафт
+          </a>
+        </div>
+        <div class="navbar-center hidden lg:flex gap-8 text-base-content/50">
+          <a
+            href="/"
+            class="relative pb-1 transition-all duration-300 <%= page === 'about' ? 'text-primary' : 'hover:text-base-content/80' %> after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:transition-all after:duration-300 <%= page === 'about' ? 'after:w-full after:bg-primary' : 'after:w-0 hover:after:w-full after:bg-current' %>"
+          >
+            О проекте
+          </a>
+
+          <a
+            href="/rules"
+            class="relative pb-1 transition-all duration-300 <%= page === 'rules' ? 'text-primary' : 'hover:text-base-content/80' %> after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:transition-all after:duration-300 <%= page === 'rules' ? 'after:w-full after:bg-primary' : 'after:w-0 hover:after:w-full after:bg-current' %>"
+          >
+            Правила
+          </a>
+
+          <a
+            href="/news"
+            class="relative pb-1 transition-all duration-300 <%= page === 'news' ? 'text-primary' : 'hover:text-base-content/80' %> after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:transition-all after:duration-300 <%= page === 'news' ? 'after:w-full after:bg-primary' : 'after:w-0 hover:after:w-full after:bg-current' %>"
+          >
+            Новости
+          </a>
+        </div>
+        <div class="navbar-end">
+          <a href="/#register" class="btn btn-primary">Играть</a>
+        </div>
+      </div>
+
+      <div class="collapse-content lg:hidden z-1">
+        <ul class="menu w-full">
+          <li><a href="/">О проекте</a></li>
+          <li><a href="/rules">Правила</a></li>
+          <li><a href="/news">Новости</a></li>
+        </ul>
+      </div>
+    </header>
+  </body>
+</html>

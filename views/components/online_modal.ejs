@@ -1,0 +1,14 @@
+<dialog id="online_modal" class="modal">
+    <div class="modal-box">
+    <h3 class="text-lg font-bold">Игроки онлайн</h3>
+    <p class="font-mono">
+        <%= (mc.isOnline && mc.online != 0) ? mc.online.join(`, `) : `Нет
+        игроков онлайн` %>
+    </p>
+    <div class="modal-action">
+        <form method="dialog">
+        <button class="btn">Закрыть</button>
+        </form>
+    </div>
+    </div>
+</dialog>

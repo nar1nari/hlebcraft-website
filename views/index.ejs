@@ -1,0 +1,429 @@
+<%- include('components/header') %> <%- include('components/whitelisted_modal')
+%> <%- include('components/online_modal') %> <%-
+include('components/mechanics_modal') %> <%- include('components/error_modal')
+%>
+<div
+  class="relative h-100 lg:h-auto lg:aspect-1366/439 w-full overflow-hidden bg-linear-to-l from-primary/50 to-base z-0"
+>
+  <img
+    id="thumb_l0"
+    src="/images/thumb_l0.webp"
+    class="blur-[3px] absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-out"
+  />
+  <img
+    id="thumb_l1"
+    src="/images/thumb_l1.webp"
+    class="blur-[2px] absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-out"
+  />
+  <img
+    id="thumb_l2"
+    src="/images/thumb_l2.webp"
+    class="blur-[1px] absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-out"
+  />
+  <img
+    id="thumb_l3"
+    src="/images/thumb_l3.webp"
+    class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-out"
+  />
+
+  <div
+    class="absolute inset-0 z-10 flex flex-col justify-center px-[5%] lg:px-[10%]"
+  >
+    <div class="flex items-center">
+      <div class="indicator pb-2">
+        <span
+          class="indicator-item badge bg-warning/90 border-none text-xl select-none"
+          >Season 3</span
+        >
+        <div class="flex items-center">
+          <img alt="Лого" src="/images/logo.png" class="h-2/3 lg:h-full" />
+          <h1
+            class="text-4xl lg:text-5xl font-bold uppercase tracking-wider font-brand! select-none"
+          >
+            Хлебкрафт
+          </h1>
+        </div>
+      </div>
+    </div>
+    <h1 class="text-2xl font-bold select-none pb-4">
+      Приватный ванильный Minecraft сервер
+    </h1>
+    <div class="flex gap-2 pb-4 items-start">
+      <div
+        class="bg-base-300/70 backdrop-blur-xs text-base-content px-4 py-2 rounded-2xl font-mono text-lg border border-base-content/20 cursor-pointer select-none transition-all"
+        data-text="hlebcraft.su"
+        onclick="
+          navigator.clipboard.writeText(this.dataset.text);
+          this.classList.add('bg-success/20', 'border-success/40', 'text-success');
+          this.querySelector('span').textContent = 'Скопировано!';
+          setTimeout(() => {
+            this.classList.remove('bg-success/20', 'border-success/40', 'text-success');
+            this.querySelector('span').textContent = this.dataset.text;
+          }, 2000)
+        "
+      >
+        <span>hlebcraft.su</span>
+      </div>
+      <div
+        class="bg-base-300/70 backdrop-blur-xs text-base-content px-4 py-2 rounded-2xl font-mono text-lg border border-base-content/20"
+      >
+        <span>JE 26.2</span>
+      </div>
+    </div>
+    <p class="text-2xl font-bold border-l-2 pl-2 border-secondary">
+      Успей стать одним из первых<br />на 3 сезоне!
+    </p>
+    <a href="#register" class="btn btn-primary w-max mt-4">
+      Оформить проходку
+    </a>
+  </div>
+</div>
+
+<script src="/js/parallax.js"></script>
+
+<div
+  class="w-full stats border-t border-b border-base-content/10 rounded-none shadow-sm relative z-20"
+>
+  <div class="stat border-r border-base-content/10">
+    <div class="stat-value text-primary">24 / 7</div>
+    <div class="stat-desc">Стабильный аптайм</div>
+  </div>
+  <div class="stat border-r border-base-content/10">
+    <btn
+      class="stat-value text-secondary cursor-pointer"
+      onclick="online_modal.showModal()"
+    >
+      <%=mc.isOnline ? mc.onlineCount : 0 %>
+    </btn>
+    <div class="stat-desc">Активных игроков прямо сейчас</div>
+  </div>
+  <div class="stat">
+    <btn
+      class="stat-value text-accent cursor-pointer"
+      onclick="whitelisted_modal.showModal()"
+      ><%= mc.whitelistCount %></btn
+    >
+    <div class="stat-desc">Игроков в вайтлисте</div>
+  </div>
+</div>
+
+<main class="w-[90%] lg:w-[80%] max-w-7xl mx-auto flex flex-col gap-32 py-12">
+  <section id="features" class="w-full flex flex-col gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div
+        class="md:col-span-2 bg-base-300 flex flex-col sm:flex-row overflow-hidden"
+      >
+        <div class="p-8 sm:w-1/2 flex flex-col gap-4">
+          <div class="svg-community w-8 h-8 text-accent"></div>
+          <h3 class="text-2xl font-bold uppercase leading-tight">
+            Преданное<br />Комьюнити
+          </h3>
+          <p class="text-sm opacity-60 leading-relaxed">
+            Главное здесь — люди. Совместные ивенты, проекты и ощущение, что ты
+            часть чего-то большего, чем просто Minecraft сервера. Здесь нет
+            места токсичности и духоте.
+          </p>
+        </div>
+        <div class="sm:w-1/2 h-64 sm:h-auto relative">
+          <img
+            src="/images/community.webp"
+            loading="lazy"
+            alt="Комьюнити"
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+        </div>
+      </div>
+
+      <div class="bg-accent/80 text-black p-8 flex flex-col gap-4">
+        <div class="svg-server w-8 h-8"></div>
+        <h3 class="text-2xl font-bold uppercase leading-tight">
+          Высокая<br />Производительность
+        </h3>
+        <p class="text-sm opacity-80 leading-relaxed font-medium">
+          Мы используем самое современное оборудование для обеспечения
+          минимального пинга и отсутствия лагов даже при масштабных стройках.
+        </p>
+      </div>
+
+      <div class="bg-base-300 p-8 flex flex-col gap-4">
+        <div class="svg-shield text-info w-8 h-8"></div>
+        <h3 class="text-xl font-bold uppercase">Повышенная<br />Защита</h3>
+        <p class="text-sm opacity-60 leading-relaxed">
+          Ваши постройки под надежной защитой современных систем логирования и
+          отката.
+        </p>
+      </div>
+
+      <div class="bg-base-300 p-8 flex flex-col gap-4">
+        <div class="svg-puzzle text-error w-8 h-8"></div>
+        <h3 class="text-xl font-bold uppercase">
+          Кастомные<br />Механики
+          <btn
+            class="svg-help inline-block w-4 h-4 cursor-pointer"
+            onclick="mechanics_modal.showModal()"
+          ></btn>
+        </h3>
+        <p class="text-sm opacity-60 leading-relaxed">
+          Мы используем уникальные самописные плагины и клиентские моды, которые
+          расширяют возможности игры, не нарушая при этом ванильный дух игры.
+        </p>
+      </div>
+
+      <div class="bg-base-300 p-8 flex flex-col gap-4">
+        <div class="svg-planet text-success w-8 h-8"></div>
+        <h3 class="text-xl font-bold uppercase">Живой<br />Мир</h3>
+        <p class="text-sm opacity-60 leading-relaxed">
+          У нас есть города, команды и прочие активные творческие объединения, а
+          так же игроки проводят регулярные совместные ивенты.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="carousel lg:w-[80%] m-auto">
+    <% gallery.forEach((item, index) => { const prevIndex = (index - 1 +
+    gallery.length) % gallery.length; const nextIndex = (index + 1) %
+    gallery.length; %>
+    <div id="slide<%= index + 1 %>" class="carousel-item relative w-full">
+      <img alt="Фото" src="<%= item.image %>" loading="lazy" class="w-full" />
+
+      <div
+        class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between"
+      >
+        <a
+          href="#slide<%= prevIndex + 1 %>"
+          class="btn btn-square btn-soft rounded-none"
+          >❮</a
+        >
+        <a
+          href="#slide<%= nextIndex + 1 %>"
+          class="btn btn-square btn-soft rounded-none"
+          >❯</a
+        >
+      </div>
+
+      <div
+        class="absolute bottom-0 left-0 right-0 bg-neutral/80 p-2 text-neutral-content"
+      >
+        <%= item.title %>
+      </div>
+    </div>
+    <% }) %>
+  </section>
+
+  <section id="register" class="w-full bg-base-200 scroll-mt-8">
+    <div
+      class="flex flex-col lg:flex-row-reverse gap-10 items-stretch justify-between"
+    >
+      <div class="flex-1 p-8">
+        <h1 class="text-5xl font-bold pb-8">
+          Оформите <span class="text-primary">проходку</span>
+        </h1>
+
+        <div
+          class="collapse collapse-arrow bg-base-100 rounded-none border-b-4 border-base-200"
+        >
+          <input type="radio" name="faq" checked="checked" />
+          <div class="collapse-title font-semibold">
+            Как быстро я получу доступ после оплаты?
+          </div>
+          <div class="collapse-content text-sm">
+            В течении 5 минут после прохождения оплаты в платёжной системе.<br />
+            Система добавит вас в вайтлист и выдаст нужную роль в Discord.
+          </div>
+        </div>
+
+        <div
+          class="collapse collapse-arrow bg-base-100 rounded-none border-b-4 border-base-200"
+        >
+          <input type="radio" name="faq" />
+          <div class="collapse-title font-semibold">
+            Можно ли играть без лицензии?
+          </div>
+          <div class="collapse-content text-sm">
+            Да, на сервер можно зайти как с лицензии, так и с пиратки.
+          </div>
+        </div>
+
+        <div
+          class="collapse collapse-arrow bg-base-100 rounded-none border-b-4 border-base-200"
+        >
+          <input type="radio" name="faq" />
+          <div class="collapse-title font-semibold">
+            Сколько действует проходка?
+          </div>
+          <div class="collapse-content text-sm">
+            Проходка на ваш ник оформляется раз и навсегда.<br />
+            При переходе на следующий сезон ваша проходка остаётся.
+          </div>
+        </div>
+
+        <div
+          class="collapse collapse-arrow bg-base-100 rounded-none border-b-4 border-base-200"
+        >
+          <input type="radio" name="faq" />
+          <div class="collapse-title font-semibold">Будут ли вайпы?</div>
+          <div class="collapse-content text-sm">
+            В ближайшее время нет. Сезон будет длиться как минимум пол года.
+          </div>
+        </div>
+
+        <p class="text-sm opacity-70 pt-8">
+          При проблемах с оплатой обратитесь в Discord к:<br />
+          Akrosha (akyao) — для России;<br />
+          nar1nari (good_vibraions) — для стран за рубежом.
+        </p>
+      </div>
+
+      <div
+        class="card bg-base-300 sm:border-r-4 rounded-none border-primary w-full lg:max-w-md flex-none"
+      >
+        <div class="card-body p-8">
+          <form action="/register" method="POST">
+            <fieldset class="fieldset gap-4">
+              <div>
+                <label class="label">Ник в игре</label>
+                <input
+                  id="nickname"
+                  name="nickname"
+                  class="input validator w-full"
+                  required
+                  placeholder="Steve"
+                  pattern="^[A-Za-z0-9_]+$"
+                  minlength="3"
+                  maxlength="16"
+                />
+                <p class="hidden validator-hint">
+                  Должен иметь длину от 3 до 16 символов
+                  <br />состоять только из латиницы, цифр и нижних подчёркиваний
+                </p>
+              </div>
+              <div>
+                <label class="label">Будущий пароль на сервере</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  class="input validator w-full"
+                  required
+                  placeholder="Password"
+                  minlength="5"
+                  maxlength="16"
+                  oninput="setCustomValidity(['123456', 'password', 'qwerty', '12345', '54321', '123456789', 'help', document.getElementById('nickname').value.toLowerCase()].includes(value.toLowerCase()) ? 'Не должен быть простым' : '')"
+                />
+                <p class="hidden validator-hint">
+                  Должен иметь длину от 5 до 16 символов
+                  <br />не должен быть простым
+                </p>
+              </div>
+              <div>
+                <label class="label">Подтверждение пароля</label>
+                <input
+                  type="password"
+                  name="confirm_password"
+                  class="input validator w-full"
+                  required
+                  placeholder="Password"
+                  minlength="5"
+                  maxlength="16"
+                  oninput="setCustomValidity(value !== document.getElementById('password').value ? 'Пароли не совпадают' : '')"
+                />
+                <p class="hidden validator-hint">Пароли не совпадают</p>
+              </div>
+              <div>
+                <label class="label">Ник в Discord</label>
+                <input
+                  name="discord"
+                  class="input w-full"
+                  placeholder="wumpus"
+                />
+                <p class="text-current/60">
+                  Discord опционален, но без него вы не сможете вернуть средства
+                  или восстанвоить доступ в случае технической ошибки.
+                </p>
+                <div
+                  class="text-base-content/60 inline-flex items-center gap-1"
+                >
+                  Убедитесь, что вы ввели верный Discord ник.
+                  <div class="tooltip w-4 h-4">
+                    <div class="tooltip-content -left-20 lg:left-auto">
+                      <img alt="Гайд" src="/images/discord.webp" loading="lazy" />
+                    </div>
+                    <span class="svg-help"></span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label class="label">Способ оплаты</label>
+                <div class="join w-full">
+                  <input
+                    class="join-item btn flex-1"
+                    type="radio"
+                    name="payment_method"
+                    value="yookassa"
+                    required
+                    aria-label="🇷🇺 Россия (ЮKassa)"
+                  />
+                  <input
+                    class="join-item btn flex-1"
+                    type="radio"
+                    name="payment_method"
+                    value="paypal"
+                    required
+                    aria-label="🌏 Весь мир (PayPal)"
+                  />
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary mt-4 w-full">
+                Оформить проходку за 50₽
+              </button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="discord"
+    class="w-full bg-[#5865F2] p-8 lg:p-16 lg:pt-24 lg:pb-24"
+  >
+    <div
+      class="flex flex-col lg:flex-row gap-10 items-center justify-between text-primary-content"
+    >
+      <div class="flex-1">
+        <h1 class="text-4xl lg:text-5xl font-bold">Сердце нашего комьюнити</h1>
+        <p class="py-6">
+          Наш Discord — это центральная платформа коммуникации сервера Здесь вы
+          можете общаться с игроками, оперативно узнавать все новости,
+          участвовать в обсуждениях и быть в курсе происходящего в мире сервера.
+        </p>
+        <a class="btn btn-soft rounded-none"
+          href="https://discord.gg/9uM4He42ZG"
+          target="_blank"
+          rel="noopener noreferrer">
+          Присоединиться
+        </a>
+      </div>
+      <div class="w-full lg:max-w-sm flex-none">
+        <iframe
+          src="https://discord.com/widget?id=1489238978002423838&theme=dark"
+          loading="lazy"
+          class="w-full rounded-lg"
+          height="350"
+          allowtransparency="true"
+          frameborder="0"
+          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+</main>
+<% if (error) { %>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("error_text").innerText = "<%= error %>";
+    error_modal.showModal();
+  });
+</script>
+<% } %> <%- include('components/footer') %>
