@@ -7,31 +7,55 @@ const registerRoutes = require("./src/routes/register.routes");
 const cleanupService = require("./src/services/cleanup.service");
 
 const app = express();
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  express.static(path.join(__dirname, "public"), {
+    maxAge: 0, // браузер не кэширует сам, всё через Cloudflare
+    setHeaders: (res, filePath) => {
+      // Изображения — Cloudflare кэширует 7 дней
+      if (/\.(png|webp|jpg|jpeg|gif|svg|ico)$/i.test(filePath)) {
+        res.setHeader(
+          "Cache-Control",
+          "public, max-age=604800, s-maxage=604800",
+        );
+      }
+      // CSS/JS — Cloudflare кэширует 1 день
+      else if (/\.(css|js)$/i.test(filePath)) {
+        res.setHeader("Cache-Control", "public, max-age=86400, s-maxage=86400");
+      }
+      // PDF — Cloudflare кэширует 1 час (документ может меняться)
+      else if (/\.pdf$/i.test(filePath)) {
+        res.setHeader(
+          "Cache-Control",
+          "public, max-age=3600, s-maxage=3600, must-revalidate",
+        );
+      }
+      // Всё остальное — не кэшировать
+      else {
+        res.setHeader("Cache-Control", "no-store");
+      }
+    },
+  }),
+);
+
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+  next();
+});
 
 const gallery = [
   {
     title: "Коллегия Магов (nar1nari, AkrobatMaster) — 1 сезон",
     image: "/images/screenshot_1.webp",
   },
-  {
-    title: "Башня Куро (kuro) — 2 сезон",
-    image: "/images/screenshot_2.webp",
-  },
-  {
-    title: "Мегумин — 2 сезон",
-    image: "/images/screenshot_3.webp",
-  },
-  {
-    title: "Куруми (romahive) — 2 сезон",
-    image: "/images/screenshot_4.webp",
-  },
+  { title: "Башня Куро (kuro) — 2 сезон", image: "/images/screenshot_2.webp" },
+  { title: "Мегумин — 2 сезон", image: "/images/screenshot_3.webp" },
+  { title: "Куруми (romahive) — 2 сезон", image: "/images/screenshot_4.webp" },
 ];
 
 app.use("/api", minecraftRoutes);
@@ -40,20 +64,20 @@ app.use("/register", registerRoutes);
 app.get("/", (req, res) => {
   const serverData = mc.getData();
   const error = req.query.error || null;
-
   res.render("index", { page: "about", gallery, mc: serverData, error });
 });
+
 app.get("/rules", (req, res) => {
   res.render("rules", { page: "rules" });
 });
+
 app.get("/news", (req, res) => {
   res.render("news", { page: "news" });
 });
 
 cleanupService.start();
 
-const PORT = 3000;
-
+const PORT = process.env.PORT || 1336;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
