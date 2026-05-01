@@ -20,7 +20,8 @@
     "ejs": "^5.0.1",
     "express": "^5.2.1",
     "mysql2": "^3.22.0",
-    "rcon-client": "^4.2.5"
+    "rcon-client": "^4.2.5",
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.2.2",

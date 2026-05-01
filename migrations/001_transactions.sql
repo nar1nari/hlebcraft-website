@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS transactions (
   id              INT AUTO_INCREMENT PRIMARY KEY,
   nickname        VARCHAR(16)  NOT NULL,
   discord         VARCHAR(64),
-  payment_method  ENUM('paypal','anypay') NOT NULL,
+  payment_method  ENUM('paypal','yookassa') NOT NULL,
   encrypted_password TEXT,
   payment_id      VARCHAR(128) NOT NULL UNIQUE,
   amount          DECIMAL(10,2) NOT NULL,
