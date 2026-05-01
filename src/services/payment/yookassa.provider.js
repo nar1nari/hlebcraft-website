@@ -1,16 +1,16 @@
 const { v4: uuidv4 } = require("uuid");
 
 const BASE = "https://api.yookassa.ru/v3";
+const YOOKASSA_PRICE_RUB = 50;
 
 function _getAuthHeader() {
   const creds = Buffer.from(
-    `${process.env.YOOKASSA_SHOP_ID}:${process.env.YOOKASSA_SECRET_KEY}`
+    `${process.env.YOOKASSA_SHOP_ID}:${process.env.YOOKASSA_SECRET_KEY}`,
   ).toString("base64");
   return `Basic ${creds}`;
 }
 
 async function createPayment(amount) {
-  amount = 50;
   const res = await fetch(`${BASE}/payments`, {
     method: "POST",
     headers: {
@@ -20,7 +20,7 @@ async function createPayment(amount) {
     },
     body: JSON.stringify({
       amount: {
-        value: amount.toFixed(2),
+        value: YOOKASSA_PRICE_RUB.toFixed(2),
         currency: "RUB",
       },
       confirmation: {
@@ -61,9 +61,7 @@ async function capturePayment(paymentId) {
   const data = await res.json();
 
   if (data.status !== "succeeded") {
-    throw new Error(
-      `YooKassa capture: статус ${data.status ?? "неизвестен"}.`
-    );
+    throw new Error(`YooKassa capture: статус ${data.status ?? "неизвестен"}.`);
   }
 
   return data;

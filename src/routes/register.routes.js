@@ -18,7 +18,7 @@ const WEAK_PASSWORDS = new Set([
 function validateForm({ nickname, password, confirmPassword, paymentMethod }) {
   if (!/^[A-Za-z0-9_]{3,16}$/.test(nickname)) {
     throw new Error(
-      "Никнейм должен быть от 3 до 16 символов (латиница, цифры, _)."
+      "Никнейм должен быть от 3 до 16 символов (латиница, цифры, _).",
     );
   }
   if (!password || password.length < 5 || password.length > 16) {
@@ -26,7 +26,8 @@ function validateForm({ nickname, password, confirmPassword, paymentMethod }) {
   }
   if (
     WEAK_PASSWORDS.has(
-      password.toLowerCase() || password.toLowerCase() == nickname.toLowerCase()
+      password.toLowerCase() ||
+        password.toLowerCase() == nickname.toLowerCase(),
     )
   ) {
     throw new Error("Пароль слишком простой. Придумайте другой.");
@@ -76,7 +77,7 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/success", async (req, res) => {
-  const { token: orderId } = req.query;
+  const orderId = req.query.token || req.query.payment_id;
 
   if (!orderId) {
     return res.render("register_result", {
@@ -88,15 +89,16 @@ router.get("/success", async (req, res) => {
   }
 
   try {
-    await paypal.capturePayment(orderId);
+    const tx = await txService.getTransactionByPaymentId(orderId);
+    const provider = getProvider(tx.payment_method);
+    await provider.capturePayment(orderId);
 
-    const tx = await txService.completeTransaction(orderId);
-
+    const completedTx = await txService.completeTransaction(orderId);
     return res.render("register_result", {
       page: "register",
       success: true,
       cancelled: false,
-      nickname: tx.nickname,
+      nickname: completedTx.nickname,
     });
   } catch (err) {
     console.error("[Register] Ошибка завершения транзакции:", err.message);
@@ -105,7 +107,7 @@ router.get("/success", async (req, res) => {
       success: false,
       cancelled: false,
       error: {
-        message: `Оплата прошла, но возникла ошибка при выдаче доступа.`,
+        message: "Оплата прошла, но возникла ошибка при выдаче доступа.",
         orderId,
       },
     });
@@ -113,8 +115,7 @@ router.get("/success", async (req, res) => {
 });
 
 router.get("/cancel", async (req, res) => {
-  const { token: orderId } = req.query;
-
+  const orderId = req.query.token || req.query.payment_id;
   if (orderId) {
     try {
       await txService.cancelTransaction(orderId);
@@ -122,7 +123,6 @@ router.get("/cancel", async (req, res) => {
       console.error("[Register] Ошибка отмены транзакции:", err.message);
     }
   }
-
   return res.render("register_result", {
     page: "register",
     success: false,

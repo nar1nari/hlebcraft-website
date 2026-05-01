@@ -8,14 +8,14 @@ const PENDING_TTL_MINUTES = 60;
 async function assertNicknameAvailable(nickname) {
   const mcData = mc.getData();
   const inWhitelist = mcData.whitelisted.some(
-    (n) => n.toLowerCase() === nickname.toLowerCase()
+    (n) => n.toLowerCase() === nickname.toLowerCase(),
   );
   if (inWhitelist)
     throw new Error("Этот никнейм уже есть в вайтлисте сервера.");
 
   const [playerRows] = await db.query(
     `SELECT id FROM players WHERE nickname = ? LIMIT 1`,
-    [nickname]
+    [nickname],
   );
   if (playerRows.length > 0)
     throw new Error("Этот никнейм уже зарегистрирован.");
@@ -23,11 +23,11 @@ async function assertNicknameAvailable(nickname) {
   const placeholders = BLOCKING_STATUSES.map(() => "?").join(",");
   const [txRows] = await db.query(
     `SELECT id FROM transactions WHERE nickname = ? AND status IN (${placeholders}) LIMIT 1`,
-    [nickname, ...BLOCKING_STATUSES]
+    [nickname, ...BLOCKING_STATUSES],
   );
   if (txRows.length > 0) {
     throw new Error(
-      "Для этого никнейма уже есть активная транзакция. Подождите или используйте другой ник."
+      "Для этого никнейма уже есть активная транзакция. Подождите или используйте другой ник.",
     );
   }
 }
@@ -54,7 +54,7 @@ async function createTransaction({
       paymentId,
       amount,
       PENDING_TTL_MINUTES,
-    ]
+    ],
   );
   return result.insertId;
 }
@@ -62,7 +62,7 @@ async function createTransaction({
 async function completeTransaction(paymentId) {
   const [rows] = await db.query(
     `SELECT * FROM transactions WHERE payment_id = ? AND (status = 'pending' OR status = 'cancelled') LIMIT 1`,
-    [paymentId]
+    [paymentId],
   );
   if (rows.length === 0)
     throw new Error("Транзакция не найдена или уже была обработана.");
@@ -70,7 +70,7 @@ async function completeTransaction(paymentId) {
 
   await db.query(
     `UPDATE transactions SET status = 'paid', updated_at = NOW() WHERE id = ?`,
-    [tx.id]
+    [tx.id],
   );
 
   const password = decrypt(tx.encrypted_password);
@@ -81,12 +81,12 @@ async function completeTransaction(paymentId) {
     `UPDATE transactions
      SET status = 'completed', encrypted_password = NULL, completed_at = NOW()
      WHERE id = ?`,
-    [tx.id]
+    [tx.id],
   );
   await db.query(
     `INSERT IGNORE INTO players (nickname, discord, transaction_id, added_at)
      VALUES (?, ?, ?, NOW())`,
-    [tx.nickname, tx.discord ?? null, tx.id]
+    [tx.nickname, tx.discord ?? null, tx.id],
   );
 
   return tx;
@@ -97,8 +97,18 @@ async function cancelTransaction(paymentId) {
     `UPDATE transactions
      SET status = 'cancelled', updated_at = NOW()
      WHERE payment_id = ? AND status = 'pending'`,
-    [paymentId]
+    [paymentId],
   );
+}
+
+async function getTransactionByPaymentId(paymentId) {
+  const [rows] = await db.query(
+    `SELECT * FROM transactions WHERE payment_id = ? LIMIT 1`,
+    [paymentId],
+  );
+  if (rows.length === 0)
+    throw new Error(`Транзакция с payment_id="${paymentId}" не найдена.`);
+  return rows[0];
 }
 
 module.exports = {
@@ -106,4 +116,5 @@ module.exports = {
   createTransaction,
   completeTransaction,
   cancelTransaction,
+  getTransactionByPaymentId,
 };
