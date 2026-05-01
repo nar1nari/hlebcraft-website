@@ -10,7 +10,7 @@ function _getAuthHeader() {
   return `Basic ${creds}`;
 }
 
-async function createPayment(amount) {
+async function createPayment(amount, ref) {
   const res = await fetch(`${BASE}/payments`, {
     method: "POST",
     headers: {
@@ -25,7 +25,7 @@ async function createPayment(amount) {
       },
       confirmation: {
         type: "redirect",
-        return_url: `${process.env.BASE_URL}/register/success`,
+        return_url: `${process.env.BASE_URL}/register/success?ref=${ref}`,
       },
       capture: true,
       description: "Проходка на Хлебкрафт",

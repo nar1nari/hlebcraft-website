@@ -39,13 +39,13 @@ async function createTransaction({
   password,
   paymentId,
   amount,
+  ref,
 }) {
   const encryptedPassword = encrypt(password);
-
   const [result] = await db.query(
     `INSERT INTO transactions
-       (nickname, discord, payment_method, encrypted_password, payment_id, amount, status, created_at, expires_at)
-     VALUES (?, ?, ?, ?, ?, ?, 'pending', NOW(), DATE_ADD(NOW(), INTERVAL ? MINUTE))`,
+       (nickname, discord, payment_method, encrypted_password, payment_id, amount, ref, status, created_at, expires_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', NOW(), DATE_ADD(NOW(), INTERVAL ? MINUTE))`,
     [
       nickname,
       discord || null,
@@ -53,6 +53,7 @@ async function createTransaction({
       encryptedPassword,
       paymentId,
       amount,
+      ref ?? null,
       PENDING_TTL_MINUTES,
     ],
   );
@@ -111,10 +112,21 @@ async function getTransactionByPaymentId(paymentId) {
   return rows[0];
 }
 
+async function getTransactionByRef(ref) {
+  const [rows] = await db.query(
+    `SELECT * FROM transactions WHERE ref = ? LIMIT 1`,
+    [ref],
+  );
+  if (rows.length === 0)
+    throw new Error(`Транзакция с ref="${ref}" не найдена.`);
+  return rows[0];
+}
+
 module.exports = {
   assertNicknameAvailable,
   createTransaction,
   completeTransaction,
   cancelTransaction,
   getTransactionByPaymentId,
+  getTransactionByRef,
 };

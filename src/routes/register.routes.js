@@ -58,7 +58,8 @@ router.post("/", async (req, res) => {
     await txService.assertNicknameAvailable(nickname);
 
     const provider = getProvider(payment_method);
-    const { paymentId, approvalUrl } = await provider.createPayment(PRICE);
+    const ref = crypto.randomUUID();
+    const { paymentId, approvalUrl } = await provider.createPayment(PRICE, ref);
 
     await txService.createTransaction({
       nickname,
@@ -67,6 +68,7 @@ router.post("/", async (req, res) => {
       password,
       paymentId,
       amount: PRICE,
+      ref,
     });
 
     return res.redirect(approvalUrl);
@@ -77,9 +79,10 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/success", async (req, res) => {
-  const orderId = req.query.token || req.query.payment_id;
+  const paypalToken = req.query.token;
+  const yookassaRef = req.query.ref;
 
-  if (!orderId) {
+  if (!paypalToken && !yookassaRef) {
     return res.render("register_result", {
       page: "register",
       success: false,
@@ -88,12 +91,15 @@ router.get("/success", async (req, res) => {
     });
   }
 
+  let tx;
   try {
-    const tx = await txService.getTransactionByPaymentId(orderId);
-    const provider = getProvider(tx.payment_method);
-    await provider.capturePayment(orderId);
+    tx = yookassaRef
+      ? await txService.getTransactionByRef(yookassaRef)
+      : await txService.getTransactionByPaymentId(paypalToken);
 
-    const completedTx = await txService.completeTransaction(orderId);
+    const provider = getProvider(tx.payment_method);
+    await provider.capturePayment(tx.payment_id);
+    const completedTx = await txService.completeTransaction(tx.payment_id);
     return res.render("register_result", {
       page: "register",
       success: true,
@@ -108,20 +114,24 @@ router.get("/success", async (req, res) => {
       cancelled: false,
       error: {
         message: "Оплата прошла, но возникла ошибка при выдаче доступа.",
-        orderId,
+        orderId: tx?.payment_id ?? paypalToken,
       },
     });
   }
 });
 
 router.get("/cancel", async (req, res) => {
-  const orderId = req.query.token || req.query.payment_id;
-  if (orderId) {
-    try {
-      await txService.cancelTransaction(orderId);
-    } catch (err) {
-      console.error("[Register] Ошибка отмены транзакции:", err.message);
+  const paypalToken = req.query.token;
+  const yookassaRef = req.query.ref;
+  try {
+    if (yookassaRef) {
+      const tx = await txService.getTransactionByRef(yookassaRef);
+      await txService.cancelTransaction(tx.payment_id);
+    } else if (paypalToken) {
+      await txService.cancelTransaction(paypalToken);
     }
+  } catch (err) {
+    console.error("[Register] Ошибка отмены транзакции:", err.message);
   }
   return res.render("register_result", {
     page: "register",

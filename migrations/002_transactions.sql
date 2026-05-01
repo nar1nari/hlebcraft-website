@@ -1,0 +1,1 @@
+ALTER TABLE transactions ADD COLUMN ref VARCHAR(36) UNIQUE;

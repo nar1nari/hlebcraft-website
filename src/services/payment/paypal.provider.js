@@ -22,7 +22,7 @@ async function _getToken() {
   return data.access_token;
 }
 
-async function createPayment(amount) {
+async function createPayment(amount, _ref) {
   const token = await _getToken();
 
   const res = await fetch(`${BASE}/v2/checkout/orders`, {
