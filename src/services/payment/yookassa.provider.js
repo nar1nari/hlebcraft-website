@@ -49,22 +49,30 @@ async function createPayment(amount) {
   return { paymentId: payment.id, approvalUrl };
 }
 
-async function capturePayment(paymentId) {
-  const res = await fetch(`${BASE}/payments/${paymentId}`, {
-    method: "GET",
-    headers: {
-      Authorization: _getAuthHeader(),
-      "Content-Type": "application/json",
-    },
-  });
+async function capturePayment(paymentId, { retries = 5, delayMs = 1500 } = {}) {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    const res = await fetch(`${BASE}/payments/${paymentId}`, {
+      method: "GET",
+      headers: {
+        Authorization: _getAuthHeader(),
+        "Content-Type": "application/json",
+      },
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (data.status !== "succeeded") {
-    throw new Error(`YooKassa capture: статус ${data.status ?? "неизвестен"}.`);
+    if (data.status === "succeeded") return data;
+
+    if (data.status === "canceled") {
+      throw new Error(`YooKassa capture: платёж отменён.`);
+    }
+
+    if (attempt < retries) {
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
   }
 
-  return data;
+  throw new Error(`YooKassa capture: платёж не подтверждён после ${retries} попыток.`);
 }
 
 module.exports = { createPayment, capturePayment };
