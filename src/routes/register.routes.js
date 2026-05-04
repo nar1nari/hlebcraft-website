@@ -3,6 +3,9 @@ const router = express.Router();
 const txService = require("../services/transaction.service");
 const { getProvider } = require("../services/payment/payment.service");
 const paypal = require("../services/payment/paypal.provider");
+const {
+  PaymentNotCompletedError,
+} = require("../services/payment/yookassa.provider");
 
 const PRICE = 0.65; // USD
 const WEAK_PASSWORDS = new Set([
@@ -107,6 +110,15 @@ router.get("/success", async (req, res) => {
       nickname: completedTx.nickname,
     });
   } catch (err) {
+    if (err instanceof PaymentNotCompletedError) {
+      if (tx) await txService.cancelTransaction(tx.payment_id).catch(() => {});
+      return res.render("register_result", {
+        page: "register",
+        success: false,
+        cancelled: true,
+      });
+    }
+
     console.error("[Register] Ошибка завершения транзакции:", err.message);
     return res.render("register_result", {
       page: "register",

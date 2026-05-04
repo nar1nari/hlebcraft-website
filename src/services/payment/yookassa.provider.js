@@ -49,6 +49,13 @@ async function createPayment(amount, ref) {
   return { paymentId: payment.id, approvalUrl };
 }
 
+class PaymentNotCompletedError extends Error {
+  constructor() {
+    super("YooKassa: платёж не завершён.");
+    this.name = "PaymentNotCompletedError";
+  }
+}
+
 async function capturePayment(paymentId, { retries = 5, delayMs = 1500 } = {}) {
   for (let attempt = 1; attempt <= retries; attempt++) {
     const res = await fetch(`${BASE}/payments/${paymentId}`, {
@@ -58,21 +65,12 @@ async function capturePayment(paymentId, { retries = 5, delayMs = 1500 } = {}) {
         "Content-Type": "application/json",
       },
     });
-
     const data = await res.json();
-
     if (data.status === "succeeded") return data;
-
-    if (data.status === "canceled") {
-      throw new Error(`YooKassa capture: платёж отменён.`);
-    }
-
-    if (attempt < retries) {
-      await new Promise((resolve) => setTimeout(resolve, delayMs));
-    }
+    if (data.status === "canceled") throw new PaymentNotCompletedError();
+    if (attempt < retries) await new Promise((r) => setTimeout(r, delayMs));
   }
-
-  throw new Error(`YooKassa capture: платёж не подтверждён после ${retries} попыток.`);
+  throw new PaymentNotCompletedError();
 }
 
-module.exports = { createPayment, capturePayment };
+module.exports = { createPayment, capturePayment, PaymentNotCompletedError };
