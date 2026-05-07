@@ -126,22 +126,28 @@ class MinecraftService {
   _parsePlugins(res) {
     if (!res) return [];
 
-    const clean = res
-      .replace(/§[0-9a-fk-or]/gi, "")
-      .replace(/§x[0-9a-f]{6}/gi, "");
+    let clean = res
+      .replace(/§x(?:§[0-9a-f]){6}/gi, "")
+      .replace(/§[0-9a-fk-or]/gi, "");
 
-    const matches = clean.match(/^\s*-\s+(.+)$/gm);
-    if (matches) {
-      return matches.flatMap((line) =>
-        line
-          .replace(/^\s*-\s+/, "")
-          .trim()
-          .split(/,\s*/)
-          .filter(Boolean)
-      );
+    const plugins = [];
+
+    for (const line of clean.split("\n")) {
+      const trimmed = line.trim();
+      if (!trimmed) continue;
+
+      if (/plugins\s*\(\d+\):?$/i.test(trimmed)) continue;
+      if (/^ℹ/.test(trimmed)) continue;
+
+      const content = trimmed.replace(/^-\s*/, "");
+
+      for (const name of content.split(/,\s*/)) {
+        const n = name.trim();
+        if (n) plugins.push(n);
+      }
     }
 
-    return this._parseList(res);
+    return plugins;
   }
 
   getData() {
