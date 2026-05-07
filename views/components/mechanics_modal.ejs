@@ -129,7 +129,7 @@
       <p class="leading-relaxed mt-6">
         <b class="text-xl">Список плагинов:</b>
         <span class="flex gap-1">
-          <%- mc.plugins[0].split(`, `).map(el => `<kbd class="kbd ml-1">${el}</kbd>`).join(``) %>
+          <%- mc.plugins.map(el => `<kbd class="kbd ml-1">${el}</kbd>`).join(``) %>
         </span>
       </p>
       <div class="modal-action">

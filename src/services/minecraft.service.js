@@ -125,11 +125,22 @@ class MinecraftService {
 
   _parsePlugins(res) {
     if (!res) return [];
+
     const clean = res
       .replace(/§[0-9a-fk-or]/gi, "")
       .replace(/§x[0-9a-f]{6}/gi, "");
+
     const matches = clean.match(/^\s*-\s+(.+)$/gm);
-    if (matches) return matches.map((l) => l.replace(/^\s*-\s+/, "").trim());
+    if (matches) {
+      return matches.flatMap((line) =>
+        line
+          .replace(/^\s*-\s+/, "")
+          .trim()
+          .split(/,\s*/)
+          .filter(Boolean)
+      );
+    }
+
     return this._parseList(res);
   }
 
