@@ -128,14 +128,14 @@
 
       <p class="leading-relaxed mt-6">
         <b class="text-xl">Список плагинов:</b>
-
-        <div class="flex flex-wrap gap-1 mt-2">
-          <%- mc.plugins
-            .map(el => `<kbd class="kbd">${el}</kbd>`)
-            .join('') %>
-        </div>
       </p>
-      
+
+      <div class="flex flex-wrap gap-1 mt-2">
+        <%- mc.plugins
+          .map(el => `<kbd class="kbd">${el.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</kbd>`)
+          .join('') %>
+      </div>
+
       <div class="modal-action">
         <form method="dialog">
           <button class="btn">Закрыть</button>
