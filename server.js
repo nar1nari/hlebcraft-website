@@ -4,6 +4,7 @@ require("dotenv").config();
 const mc = require("./src/services/minecraft.service");
 const minecraftRoutes = require("./src/routes/minecraft.routes");
 const registerRoutes = require("./src/routes/register.routes");
+const adminRoutes = require("./src/routes/admin.routes");
 const cleanupService = require("./src/services/cleanup.service");
 
 const app = express();
@@ -59,6 +60,7 @@ const gallery = [
 ];
 
 app.use("/api", minecraftRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/register", registerRoutes);
 
 app.get("/", (req, res) => {
