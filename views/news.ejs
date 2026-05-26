@@ -1,5 +1,76 @@
 <%- include('components/header') %>
-<main
-  class="min-h-[100vh] w-[90%] lg:w-[80%] max-w-7xl mx-auto flex flex-col gap-32 py-12"
-></main>
+
+<main class="min-h-[100vh] w-[90%] lg:w-[80%] max-w-7xl mx-auto flex flex-col gap-10 py-12">
+
+  <% if (news && news.length > 0) { %>
+    <% const featured = news[0]; %>
+    <article class="group bg-base-300 flex flex-col lg:flex-row overflow-hidden border-l-4 border-primary">
+      <% if (featured.image) { %>
+      <div class="lg:w-1/2 h-64 lg:h-auto relative overflow-hidden flex-none">
+        <img
+          src="<%= featured.image %>"
+          alt="<%= featured.title %>"
+          loading="eager"
+          class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        <div class="absolute inset-0 bg-linear-to-r from-transparent to-base-300/60"></div>
+      </div>
+      <% } %>
+      <div class="p-8 lg:p-12 flex flex-col gap-4 justify-center flex-1">
+        <div class="flex items-center gap-3">
+          <span class="badge badge-primary badge-sm font-mono uppercase tracking-wider rounded-none">Главное</span>
+          <time class="text-xs font-mono text-base-content/40 uppercase tracking-wider">
+            <%= new Date(featured.date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) %>
+          </time>
+        </div>
+        <h2 class="text-2xl lg:text-3xl font-bold uppercase leading-tight"><%= featured.title %></h2>
+        <p class="text-base-content/60 text-sm leading-relaxed line-clamp-4"><%= featured.body %></p>
+        <% if (featured.link) { %>
+        <a href="<%= featured.link %>" class="btn btn-primary w-max mt-2">Читать далее</a>
+        <% } %>
+      </div>
+    </article>
+
+    <% if (news.length > 1) { %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% news.slice(1).forEach(function(item) { %>
+      <article class="group bg-base-300 flex flex-col overflow-hidden hover:border-l-4 hover:border-secondary transition-all duration-200 border-l-4 border-transparent">
+        <% if (item.image) { %>
+        <div class="w-full h-48 relative overflow-hidden flex-none">
+          <img
+            src="<%= item.image %>"
+            alt="<%= item.title %>"
+            loading="lazy"
+            class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
+        <% } %>
+        <div class="p-6 flex flex-col gap-3 flex-1">
+          <time class="text-xs font-mono text-base-content/40 uppercase tracking-wider">
+            <%= new Date(item.date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) %>
+          </time>
+          <h3 class="text-lg font-bold uppercase leading-snug"><%= item.title %></h3>
+          <p class="text-base-content/60 text-sm leading-relaxed line-clamp-3 flex-1"><%= item.body %></p>
+          <% if (item.link) { %>
+          <a href="<%= item.link %>" class="btn btn-ghost btn-sm w-max px-0 hover:text-primary">Читать →</a>
+          <% } %>
+        </div>
+      </article>
+      <% }) %>
+    </div>
+    <% } %>
+
+  <% } else { %>
+  <div class="flex flex-col items-center justify-center py-32 gap-6 text-center text-base-content/30">
+    <div class="text-6xl select-none">📰</div>
+    <div>
+      <p class="text-xl font-bold uppercase tracking-wider">Новостей пока нет</p>
+      <p class="text-sm mt-1">Заходите позже — скоро здесь появятся обновления</p>
+    </div>
+    <a href="/" class="btn btn-ghost btn-sm">← На главную</a>
+  </div>
+  <% } %>
+
+</main>
+
 <%- include('components/footer') %>

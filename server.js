@@ -59,6 +59,16 @@ const gallery = [
   { title: "Куруми (romahive) — 2 сезон", image: "/images/screenshot_4.webp" },
 ];
 
+const news = [
+  {
+    title: "Открытие 3 сезона",
+    body: "Мы рады объявить об успешном открытии третьего сезона Хлебкрафт! Открытие прошло отлично — спасибо всем кто пришёл, было весело. Впереди нас ждёт ещё больше интересных событий, уютных вечеров и новых впечатлений. До встречи на сервере!",
+    image: "/images/opening.webp",
+    date: "2025-05-25",
+    link: null,
+  },
+];
+
 app.use("/api", minecraftRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/register", registerRoutes);
@@ -74,7 +84,7 @@ app.get("/rules", (req, res) => {
 });
 
 app.get("/news", (req, res) => {
-  res.render("news", { page: "news" });
+  res.render("news", { page: "news", news });
 });
 
 cleanupService.start();
