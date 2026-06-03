@@ -229,6 +229,17 @@
           class="collapse collapse-arrow bg-base-100 rounded-none border-b-4 border-base-200"
         >
           <input type="radio" name="faq" checked="checked" />
+          <div class="collapse-title font-semibold">Как я могу оформить проходку?</div>
+          <div class="collapse-content text-sm">
+            При наличии Российской карты вы можете оформить проходку на сайте.<br/>
+            В других случаях проходку можно оформить через поддержку на нашем Discord сервере.
+          </div>
+        </div>
+
+        <div
+          class="collapse collapse-arrow bg-base-100 rounded-none border-b-4 border-base-200"
+        >
+          <input type="radio" name="faq" />
           <div class="collapse-title font-semibold">
             Как быстро я получу доступ после оплаты?
           </div>
@@ -283,111 +294,117 @@
             Discord сервера</a>.
         </p>
       </div>
-
-      <div
-        class="card bg-base-300 sm:border-r-4 rounded-none border-primary w-full lg:max-w-md flex-none"
-      >
+      
+      <div class="card bg-base-300 sm:border-r-4 rounded-none border-primary w-full lg:max-w-md flex-none">
         <div class="card-body p-8">
-          <form action="/register" method="POST">
-            <fieldset class="fieldset gap-4">
-              <div>
-                <label class="label">Ник в игре</label>
-                <input
-                  id="nickname"
-                  name="nickname"
-                  class="input validator w-full"
-                  required
-                  placeholder="Steve"
-                  pattern="^[A-Za-z0-9_]+$"
-                  minlength="3"
-                  maxlength="16"
-                />
-                <p class="hidden validator-hint">
-                  Должен иметь длину от 3 до 16 символов
-                  <br />состоять только из латиницы, цифр и нижних подчёркиваний
-                </p>
-              </div>
-              <div>
-                <label class="label">Будущий пароль на сервере</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  class="input validator w-full"
-                  required
-                  placeholder="Password"
-                  minlength="5"
-                  maxlength="16"
-                  oninput="setCustomValidity(['123456', 'password', 'qwerty', '12345', '54321', '123456789', 'help', document.getElementById('nickname').value.toLowerCase()].includes(value.toLowerCase()) ? 'Не должен быть простым' : '')"
-                />
-                <p class="hidden validator-hint">
-                  Должен иметь длину от 5 до 16 символов
-                  <br />не должен быть простым
-                </p>
-              </div>
-              <div>
-                <label class="label">Подтверждение пароля</label>
-                <input
-                  type="password"
-                  name="confirm_password"
-                  class="input validator w-full"
-                  required
-                  placeholder="Password"
-                  minlength="5"
-                  maxlength="16"
-                  oninput="setCustomValidity(value !== document.getElementById('password').value ? 'Пароли не совпадают' : '')"
-                />
-                <p class="hidden validator-hint">Пароли не совпадают</p>
-              </div>
-              <div>
-                <label class="label">Ник в Discord</label>
-                <input
-                  name="discord"
-                  class="input w-full"
-                  placeholder="wumpus"
-                />
-                <p class="text-current/60">
-                  Discord опционален, но без него вы не сможете вернуть средства
-                  или восстанвоить доступ в случае технической ошибки.
-                </p>
-                <div
-                  class="text-base-content/60 inline-flex items-center gap-1"
-                >
-                  Убедитесь, что вы ввели верный Discord ник.
-                  <div class="tooltip w-4 h-4">
-                    <div class="tooltip-content -left-20 lg:left-auto">
-                      <img alt="Гайд" src="/images/discord.webp" loading="lazy" />
-                    </div>
-                    <span class="svg-help"></span>
+          <div class="tabs tabs-border mb-6">
+            <input
+              type="radio"
+              name="region_tabs"
+              class="tab"
+              aria-label="🇷🇺 Россия"
+              checked
+            />
+            <div class="tab-content pt-4">
+              <form action="/register" method="POST">
+                <fieldset class="fieldset gap-4">
+                  <input type="hidden" name="payment_method" value="yookassa" />
+                  <div>
+                    <label class="label">Ник в игре</label>
+                    <input
+                      id="nickname"
+                      name="nickname"
+                      class="input validator w-full"
+                      required
+                      placeholder="Steve"
+                      pattern="^[A-Za-z0-9_]+$"
+                      minlength="3"
+                      maxlength="16"
+                    />
+                    <p class="hidden validator-hint">
+                      Должен иметь длину от 3 до 16 символов
+                      <br />состоять только из латиницы, цифр и нижних подчёркиваний
+                    </p>
                   </div>
-                </div>
-              </div>
-              <div>
-                <label class="label">Способ оплаты</label>
-                <div class="join w-full">
-                  <input
-                    class="join-item btn flex-1"
-                    type="radio"
-                    name="payment_method"
-                    value="yookassa"
-                    required
-                    aria-label="🇷🇺 Россия (ЮKassa)"
-                  />
-                  <input
-                    class="join-item btn flex-1"
-                    type="radio"
-                    name="payment_method"
-                    value="paypal"
-                    required
-                    aria-label="🌏 Весь мир (PayPal)"
-                  />
-                </div>
-              </div>
-              <button type="submit" class="btn btn-primary mt-4 w-full">
-                Оформить проходку за 50₽
-              </button>
-            </fieldset>
-          </form>
+                  <div>
+                    <label class="label">Будущий пароль на сервере</label>
+                    <input
+                      id="password"
+                      name="password"
+                      type="password"
+                      class="input validator w-full"
+                      required
+                      placeholder="Password"
+                      minlength="5"
+                      maxlength="16"
+                      oninput="setCustomValidity(['123456', 'password', 'qwerty', '12345', '54321', '123456789', 'help', document.getElementById('nickname').value.toLowerCase()].includes(value.toLowerCase()) ? 'Не должен быть простым' : '')"
+                    />
+                    <p class="hidden validator-hint">
+                      Должен иметь длину от 5 до 16 символов
+                      <br />не должен быть простым
+                    </p>
+                  </div>
+                  <div>
+                    <label class="label">Подтверждение пароля</label>
+                    <input
+                      type="password"
+                      name="confirm_password"
+                      class="input validator w-full"
+                      required
+                      placeholder="Password"
+                      minlength="5"
+                      maxlength="16"
+                      oninput="setCustomValidity(value !== document.getElementById('password').value ? 'Пароли не совпадают' : '')"
+                    />
+                    <p class="hidden validator-hint">Пароли не совпадают</p>
+                  </div>
+                  <div>
+                    <label class="label">Ник в Discord</label>
+                    <input
+                      name="discord"
+                      class="input w-full"
+                      placeholder="wumpus"
+                    />
+                    <p class="text-current/60">
+                      Discord опционален, но без него вы не сможете вернуть средства
+                      или восстановить доступ в случае технической ошибки.
+                    </p>
+                    <div class="text-base-content/60 inline-flex items-center gap-1">
+                      Убедитесь, что вы ввели верный Discord ник.
+                      <div class="tooltip w-4 h-4">
+                        <div class="tooltip-content -left-20 lg:left-auto">
+                          <img alt="Гайд" src="/images/discord.webp" loading="lazy" />
+                        </div>
+                        <span class="svg-help"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary mt-4 w-full">
+                    Оформить проходку за 50₽
+                  </button>
+                </fieldset>
+              </form>
+            </div>
+
+            <input
+              type="radio"
+              name="region_tabs"
+              class="tab"
+              aria-label="🇰🇿 🇪🇺 🇺🇸 Зарубежные страны"
+            />
+            <div class="tab-content pt-4">
+              <p class="text-base-content/80 leading-relaxed">
+                На данный момент мы не имеем оплаты для зарубежных стран на сайте.
+                Для оформления проходки обратитесь на наш
+                <a class="link"
+                  href="https://discord.gg/9uM4He42ZG"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Discord Сервер</a>
+                в раздел <span class="font-semibold text-base-content">#поддержка</span>.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
