@@ -55,7 +55,7 @@ const gallery = [
     image: "/images/screenshot_1.webp",
   },
   { title: "Башня Куро (kuro) — 2 сезон", image: "/images/screenshot_2.webp" },
-  { title: "Мегумин — 2 сезон", image: "/images/screenshot_3.webp" },
+  { title: "Мегумин (Onisize) — 2 сезон", image: "/images/screenshot_3.webp" },
   { title: "Куруми (romahive) — 2 сезон", image: "/images/screenshot_4.webp" },
 ];
 
