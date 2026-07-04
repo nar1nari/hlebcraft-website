@@ -1,9 +1,36 @@
 <!DOCTYPE html>
+<%
+const siteUrl = "https://hlebcraft.su";
+const pageTitle = typeof title !== "undefined" ? title : "Хлебкрафт — Приватный ванильный Minecraft сервер";
+const pageDescription = typeof description !== "undefined" ? description : "Хлебкрафт — приватный ванильный Minecraft сервер (JE 26.1.2). Дружное комьюнити, стабильный аптайм, кастомные механики без нарушения ванильного духа. Присоединяйся: mc.hlebcraft.su";
+const pagePath = typeof canonical !== "undefined" ? canonical : "/";
+const canonicalUrl = siteUrl + pagePath;
+const pageOgImage = typeof ogImage !== "undefined" ? siteUrl + ogImage : siteUrl + "/images/opening.webp";
+const robotsContent = typeof noindex !== "undefined" && noindex ? "noindex, nofollow" : "index, follow";
+%>
 <html lang="ru" class="scroll-smooth bg-base-200">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="UTF-8" />
-    <title>Хлебкрафт</title>
+    <title><%= pageTitle %></title>
+    <meta name="description" content="<%= pageDescription %>" />
+    <meta name="robots" content="<%= robotsContent %>" />
+    <meta name="author" content="Хлебкрафт" />
+    <link rel="canonical" href="<%= canonicalUrl %>" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Хлебкрафт" />
+    <meta property="og:title" content="<%= pageTitle %>" />
+    <meta property="og:description" content="<%= pageDescription %>" />
+    <meta property="og:url" content="<%= canonicalUrl %>" />
+    <meta property="og:image" content="<%= pageOgImage %>" />
+    <meta property="og:locale" content="ru_RU" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="<%= pageTitle %>" />
+    <meta name="twitter:description" content="<%= pageDescription %>" />
+    <meta name="twitter:image" content="<%= pageOgImage %>" />
+
     <link href="/css/output.css" rel="stylesheet" />
     <link
       href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap"
@@ -11,6 +38,25 @@
     />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <script src="/js/svg.js" defer></script>
+
+    <script type="application/ld+json">
+      <%- JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Хлебкрафт",
+        "url": siteUrl,
+        "logo": siteUrl + "/images/logo.png",
+        "sameAs": ["https://discord.gg/9uM4He42ZG"]
+      }) %>
+    </script>
+    <script type="application/ld+json">
+      <%- JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Хлебкрафт",
+        "url": siteUrl
+      }) %>
+    </script>
   </head>
 
   <body class="bg-base-100 overflow-y-scroll">

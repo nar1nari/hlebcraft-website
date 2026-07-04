@@ -452,4 +452,53 @@
     error_modal.showModal();
   });
 </script>
-<% } %> <%- include('components/footer') %>
+<% } %>
+<script type="application/ld+json">
+  <%- JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Как я могу оформить проходку?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "При наличии Российской карты вы можете оформить проходку на сайте. В других случаях проходку можно оформить через поддержку на нашем Discord сервере."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Как быстро я получу доступ после оплаты?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "В течении 5 минут после прохождения оплаты в платёжной системе. Система добавит вас в вайтлист и выдаст нужную роль в Discord."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Можно ли играть без лицензии?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Да, на сервер можно зайти как с лицензии, так и с пиратки."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Сколько действует проходка?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Проходка на ваш ник оформляется раз и навсегда. При переходе на следующий сезон ваша проходка остаётся."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Будут ли вайпы?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "В ближайшее время нет. Сезон будет длиться как минимум пол года."
+        }
+      }
+    ]
+  }) %>
+</script>
+<%- include('components/footer') %>

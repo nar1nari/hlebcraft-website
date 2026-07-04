@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /register
+Disallow: /api/
+
+Sitemap: https://hlebcraft.su/sitemap.xml

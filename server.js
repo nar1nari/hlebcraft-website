@@ -76,15 +76,37 @@ app.use("/register", registerRoutes);
 app.get("/", (req, res) => {
   const serverData = mc.getData();
   const error = req.query.error || null;
-  res.render("index", { page: "about", gallery, mc: serverData, error });
+  res.render("index", {
+    page: "about",
+    gallery,
+    mc: serverData,
+    error,
+    title: "Хлебкрафт — Приватный ванильный Minecraft сервер (3 сезон)",
+    description:
+      "Хлебкрафт — приватный ванильный Minecraft сервер (JE 26.1.2, mc.hlebcraft.su). Дружное комьюнити, стабильный аптайм, кастомные механики без нарушения ванильного духа игры. Оформи проходку на 3 сезон уже сейчас!",
+    canonical: "/",
+  });
 });
 
 app.get("/rules", (req, res) => {
-  res.render("rules", { page: "rules" });
+  res.render("rules", {
+    page: "rules",
+    title: "Правила сервера — Хлебкрафт",
+    description:
+      "Правила приватного ванильного Minecraft сервера Хлебкрафт: общение, игровой процесс, ответственность администрации и порядок наказаний.",
+    canonical: "/rules",
+  });
 });
 
 app.get("/news", (req, res) => {
-  res.render("news", { page: "news", news });
+  res.render("news", {
+    page: "news",
+    news,
+    title: "Новости — Хлебкрафт Minecraft сервер",
+    description:
+      "Последние новости приватного ванильного Minecraft сервера Хлебкрафт: открытия сезонов, обновления и события комьюнити.",
+    canonical: "/news",
+  });
 });
 
 cleanupService.start();
